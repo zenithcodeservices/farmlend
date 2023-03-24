@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  farmlend_client:
+    build:
+      context: ./farmlend_client
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+
+  farmlend_api:
+    build:
+      context: ./farmlendAPI
+      dockerfile: Dockerfile
+    environment:
+      - DATABASE_URL=postgres://user:password@postgres/farmlend_db
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: farmlend_db
+
