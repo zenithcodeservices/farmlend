@@ -1,10 +1,11 @@
 const express = require('express');
-const router = express.Router();
-const pool = require('../server');
 
+function ordersRouter(pool)
+{
+  const router = express.Router();
 
-// Create a new order
-router.post('/orders', async (req, res) => {
+  // Create a new order
+  router.post('/orders', async (req, res) => {
     try {
       const { type, referenced_order_id, referenced_product_id } = req.body;
       const neworder = await pool.query(
@@ -16,7 +17,7 @@ router.post('/orders', async (req, res) => {
       console.error(err.message);
     }
   });
-  
+
   // Get all orders
   router.get('/orders', async (req, res) => {
     try {
@@ -26,7 +27,7 @@ router.post('/orders', async (req, res) => {
       console.error(err.message);
     }
   });
-  
+
   // Get a single order by id
   router.get('/orders/:id', async (req, res) => {
     try {
@@ -40,7 +41,7 @@ router.post('/orders', async (req, res) => {
       console.error(err.message);
     }
   });
-  
+
   // Update an order
   router.put('/orders/:id', async (req, res) => {
     try {
@@ -55,7 +56,7 @@ router.post('/orders', async (req, res) => {
       console.error(err.message);
     }
   });
-  
+
   // Delete an order
   router.delete('/orders/:id', async (req, res) => {
     try {
@@ -69,3 +70,9 @@ router.post('/orders', async (req, res) => {
       console.error(err.message);
     }
   });
+
+  return router;
+
+}
+
+module.exports = ordersRouter;

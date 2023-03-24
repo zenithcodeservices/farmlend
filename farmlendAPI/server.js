@@ -1,35 +1,36 @@
 const express = require('express');
-const app = express();
 const PORT = process.env.PORT || 3000;
-
 const { Pool } = require('pg');
 
 const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'postgres',
-  password: 'P9Amlverb',
-  port: 5432,
+    user: 'postgres',
+    host: 'localhost',
+    database: 'postgres',
+    password: 'P9Amlverb',
+    port: 5432,
 });
+
+const app = express();
 
 pool.on('error', (err, client) => {
   console.error('Unexpected error on idle client', err);
   process.exit(-1);
 });
 
-module.exports = pool;
-
 
 app.use(express.json());
 
 // Import organizations router
-const organizationsRouter = require('./organizations');
-app.use('/organizations', organizationsRouter);
+const organizationsRouter = require('./routes/organizations');
+app.use('/organizations', organizationsRouter(pool));
 
 // Import products router
-const productsRouter = require('./products');
-app.use('/products', productsRouter);
+const productsRouter = require('./routes/products');
+app.use('/products', productsRouter(pool));
 
+// Import orders router
+const ordersRouter = require('./routes/orders');
+app.use('/orders', ordersRouter(pool));
 
 
 // Sample data for products
@@ -41,5 +42,7 @@ let products = [
 
 
 app.listen(PORT, () => {
-  console.log(`Server listening at http://localhost:${PORT}`);
+    console.log(`Server listening at http://localhost:${PORT}`);
 });
+
+module.exports = pool;

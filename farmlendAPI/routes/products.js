@@ -2,9 +2,12 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../server');
 
+function productsRouter(pool) {
 
-// Create product
-router.post('/', async (req, res) => {
+  const router = express.Router();
+
+  // Create product
+  router.post('/', async (req, res) => {
     const { category, variety, packaging } = req.body;
     try {
       const result = await pool.query(
@@ -16,7 +19,7 @@ router.post('/', async (req, res) => {
       res.status(400).send(error);
     }
   });
-  
+
   // Read products
   router.get('/', async (req, res) => {
     try {
@@ -26,7 +29,7 @@ router.post('/', async (req, res) => {
       res.status(400).send(error);
     }
   });
-  
+
   // Update product
   router.patch('/:id', async (req, res) => {
     const { category, variety, packaging } = req.body;
@@ -41,7 +44,7 @@ router.post('/', async (req, res) => {
       res.status(400).send(error);
     }
   });
-  
+
   // Delete product
   router.delete('/:id', async (req, res) => {
     const { id } = req.params;
@@ -54,4 +57,9 @@ router.post('/', async (req, res) => {
       console.error(err.message);
     }
   });
-  
+
+  return router;
+
+}
+
+module.exports = productsRouter;

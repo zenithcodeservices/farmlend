@@ -1,10 +1,12 @@
 const express = require('express');
-const router = express.Router();
-const pool = require('../server');
+
+function organizationsRouter(pool) {
+
+  const router = express.Router();
 
 
-// Create a new organization
-router.post('/organizations', async (req, res) => {
+  // Create a new organization
+  router.post('/', async (req, res) => {
     try {
       const { name, type } = req.body;
       const newOrganization = await pool.query(
@@ -16,9 +18,9 @@ router.post('/organizations', async (req, res) => {
       console.error(err.message);
     }
   });
-  
+
   // Get all organizations
-  router.get('/organizations', async (req, res) => {
+  router.get('/', async (req, res) => {
     try {
       const allOrganizations = await pool.query('SELECT * FROM organizations');
       res.json(allOrganizations.rows);
@@ -26,9 +28,9 @@ router.post('/organizations', async (req, res) => {
       console.error(err.message);
     }
   });
-  
+
   // Get a single organization by id
-  router.get('/organizations/:id', async (req, res) => {
+  router.get('/:id', async (req, res) => {
     try {
       const { id } = req.params;
       const organization = await pool.query(
@@ -40,9 +42,9 @@ router.post('/organizations', async (req, res) => {
       console.error(err.message);
     }
   });
-  
+
   // Update an organization
-  router.put('/organizations/:id', async (req, res) => {
+  router.put('/:id', async (req, res) => {
     try {
       const { id } = req.params;
       const { name, type } = req.body;
@@ -55,9 +57,9 @@ router.post('/organizations', async (req, res) => {
       console.error(err.message);
     }
   });
-  
+
   // Delete an organization
-  router.delete('/organizations/:id', async (req, res) => {
+  router.delete('/:id', async (req, res) => {
     try {
       const { id } = req.params;
       const deleteOrganization = await pool.query(
@@ -69,3 +71,9 @@ router.post('/organizations', async (req, res) => {
       console.error(err.message);
     }
   });
+
+  return router;
+
+}
+
+module.exports = organizationsRouter;
