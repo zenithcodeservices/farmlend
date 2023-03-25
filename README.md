@@ -1,7 +1,7 @@
 
 # Farmlend Assessment
 
-This is a 
+This is an assessment to be submitted to Farmlend in London, England.
 
 # Instructions
 
