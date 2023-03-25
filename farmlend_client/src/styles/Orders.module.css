@@ -1,0 +1,6 @@
+.minWidth th {
+  min-width: 100px;
+}
+.minWidth td {
+  min-width: 100px;
+}
