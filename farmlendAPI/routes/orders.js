@@ -65,7 +65,7 @@ function ordersRouter(pool)
         'DELETE FROM orders WHERE id = $1',
         [id]
       );
-      res.json('order was deleted!');
+      res.json('Order was deleted!');
     } catch (err) {
       console.error(err.message);
     }

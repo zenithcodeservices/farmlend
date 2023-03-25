@@ -1,6 +1,8 @@
 const express = require('express');
 const PORT = process.env.PORT || 3000;
 const { Pool } = require('pg');
+require('dotenv').config()
+
 
 const pool = new Pool({
     user: process.env.DB_USER,
@@ -45,4 +47,4 @@ app.listen(PORT, () => {
     console.log(`Server listening at http://localhost:${PORT}`);
 });
 
-module.exports = pool;
+module.exports = app;

@@ -30,6 +30,17 @@ function productsRouter(pool) {
     }
   });
 
+  // Read product by ID
+  router.get('/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+      const result = await pool.query('SELECT * FROM products WHERE id=$1', [id]);
+      res.send(result.rows);
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  });
+
   // Update product
   router.patch('/:id', async (req, res) => {
     const { category, variety, packaging } = req.body;
@@ -52,7 +63,7 @@ function productsRouter(pool) {
       await pool.query('DELETE FROM products WHERE id=$1',
         [id]
       );
-      res.json('Organization was deleted!');
+      res.json('Product was deleted!');
     } catch (err) {
       console.error(err.message);
     }
